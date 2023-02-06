@@ -1,0 +1,68 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Headers Files">
+      <UniqueIdentifier>{da1eca7c-7e86-46e7-90b3-9d31817b29b4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headers Files\FileManagement">
+      <UniqueIdentifier>{70d5a551-bcec-40f8-987e-be1e2e7073a2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\FileManagement">
+      <UniqueIdentifier>{49ea4477-3aac-4ea8-be56-8fab2b20954b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headers Files\Encryption">
+      <UniqueIdentifier>{1923ce49-e11d-466a-875f-24f378510b98}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headers Files\Util">
+      <UniqueIdentifier>{5e304ba6-3b68-4215-b90d-0e539463f6ec}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Source.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ReadFile.cpp">
+      <Filter>Source Files\FileManagement</Filter>
+    </ClCompile>
+    <ClCompile Include="AES.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="writeFile.cpp">
+      <Filter>Source Files\FileManagement</Filter>
+    </ClCompile>
+    <ClCompile Include="ErrorsCode.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Util.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="ReadFile.h">
+      <Filter>Headers Files\FileManagement</Filter>
+    </ClInclude>
+    <ClInclude Include="AES.h">
+      <Filter>Headers Files\Encryption</Filter>
+    </ClInclude>
+    <ClInclude Include="writeFile.h">
+      <Filter>Headers Files\FileManagement</Filter>
+    </ClInclude>
+    <ClInclude Include="RSA.h">
+      <Filter>Headers Files\Encryption</Filter>
+    </ClInclude>
+    <ClInclude Include="ErrorsCode.h">
+      <Filter>Headers Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Util.h">
+      <Filter>Headers Files\Util</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
