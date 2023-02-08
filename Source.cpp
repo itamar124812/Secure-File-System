@@ -23,10 +23,9 @@ int main() {
 void test1() {
 	AESResult* result = NULL;
 	const char* path = R"(C:\Users\USER\Source\Repos\Project22\Debug\longText.txt)";
-	encryptFile(path,result,true,32,32);
+	encryptFile(path,&result,true,32,32);
 	printf("%d",decryptFile(path, result));
-	printf((const char*)result->buffer);
-	free(result->buffer);
+	free(result->path);
 	free(result->AAD);
 	free(result->iv);
 	free(result->key);

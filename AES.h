@@ -19,9 +19,9 @@ struct AESResult {
 	char* AAD;
 	int keySize;
 	unsigned char tag [16];
-	unsigned char* buffer;
+	char* path;
 	int length;
 };
-int encryptFile(const char* path, AESResult * result, bool withAAD=false, int userId = 0, int keySize = 32);
+int encryptFile(const char* path, AESResult ** result, bool withAAD=false, int userId = 0, int keySize = 32);
 int decryptFile(const char* path, AESResult* aesValuesToDecrypt,int keySize=32);
 int encryptBuffer();

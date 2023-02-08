@@ -38,13 +38,22 @@ int init_file_chunks(const char* path, file_chunks* fc) {
 	return 0;
 }
 int get_next_chunk(file_chunks* fc) {
-	fc->chunk_size = fread(fc->chunk, 1, CHUNK_SIZE, fc->fp);
+	size_t total_read = 0;
+	size_t remaining = CHUNK_SIZE;
+	size_t chunk_size = 0;
+	while (total_read < CHUNK_SIZE && !feof(fc->fp)) {
+		chunk_size = fread(fc->chunk + total_read, 1, remaining, fc->fp);
+		total_read += chunk_size;
+		remaining -= chunk_size;
+	}
+	fc->chunk_size = total_read;
 	if (ferror(fc->fp)) {
 		perror("fread");
 		return 1;
 	}
 	return (fc->chunk_size > 0);
 }
+
 
 int release_file_chunks(file_chunks* fc) {
 	if (fclose(fc->fp) != 0) {
