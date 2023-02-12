@@ -149,7 +149,7 @@ int encryptFile(const char* path, AESResult** result, bool withAAD,int userId, i
 		if (!EVP_EncryptUpdate(ctx, buffer, &out, (const unsigned char*)fc.chunk, fc.chunk_size)) {
 			freeAll((*result), &ctx, pointers, count,&fc);
 			free(result);
-			fputs("An error has occurred when trying to encrypt the file.", stderr);
+			fputs("An error has occurred when trying to encrypt the file.\n", stderr);
 			return OperationFailed;
 		}
 		memcpy(encryptedFile + resultOut, buffer, out);
@@ -161,7 +161,7 @@ int encryptFile(const char* path, AESResult** result, bool withAAD,int userId, i
 	}
 	if (writeBufferToFile(encryptedFile, resultOut, path)) {
 		freeAll(NULL, &ctx, pointers, count);
-		fputs("The encryption process was successful. An error occurred while trying to overwrite the file.", stderr);
+		fputs("The encryption process was successful. An error occurred while trying to overwrite the file.\n", stderr);
 		return EIO;
 	}
 	int pathLen = strlen(path);
@@ -185,13 +185,13 @@ int decryptFile(const char* path, AESResult * aesValuesToDecrypt, int keySize) {
 		return OperationFailed;
 	}
 	file_chunks fc = file_chunks{};
-	if (init_file_chunks(path, &fc) != 0) {
-		fputs("error when trying to open the file.", stderr);
+	if (init_file_chunks(path, &fc,true) != 0) {
+		fputs("error when trying to open the file.\n", stderr);
 		return EIO;
 	}
 	if (!EVP_DecryptInit_ex(ctx, NULL, NULL, aesValuesToDecrypt->key, aesValuesToDecrypt->iv)) {
 		freeAll(NULL, &ctx, ptr, count, &fc);
-		perror("An error has occurred during initializtion.");
+		perror("An error has occurred during initializtion.\n");
 		return OperationFailed;
 	}
 	if (aesValuesToDecrypt->AAD != NULL) {
@@ -203,28 +203,29 @@ int decryptFile(const char* path, AESResult * aesValuesToDecrypt, int keySize) {
 	}
 	unsigned char* output =(unsigned char*) malloc((aesValuesToDecrypt->length)+1024);
 	ptr[count++] = output;
+	out = 0;
 	while (get_next_chunk(&fc)) {
 		if (!EVP_DecryptUpdate(ctx, output + resultOut, &out, fc.chunk, fc.chunk_size))
 		{
 			freeAll(NULL, &ctx, ptr, count, &fc);
-			perror("An error has occurred during the descryption.");
+			perror("An error has occurred during the descryption.\n");
 			return OperationFailed;
 		}
 		resultOut += out;
 	}
 	
 	if (!EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_SET_TAG, 16, aesValuesToDecrypt->tag)) {
-		fputs("An error has occurred with the tag. The result is untrusted.",stderr);
+		fputs("An error has occurred with the tag. The result is untrusted.\n",stderr);
 		trusted = false;		 
 	}
 	if (EVP_DecryptFinal_ex(ctx, output + resultOut, &out) <= 0) {
-		fputs("An error has occurred with the final stage. The result is untrusted.", stderr);
+		fputs("An error has occurred with the final stage. The result is untrusted.\n", stderr);
 		trusted = false;
 	}
 	resultOut += out;
 	if (writeBufferToFile(output, resultOut, path)) {
 		freeAll(NULL, &ctx, ptr, count, &fc);
-		fputs("The decryption process was successful. An error occurred while trying to overwrite the file.", stderr);
+		fputs("The decryption process was successful. An error occurred while trying to overwrite the file.\n", stderr);
 		return EIO;
 	}
 	
