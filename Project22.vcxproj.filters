@@ -44,6 +44,12 @@
     <ClCompile Include="Util.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="DES.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SymmetricPadding.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ReadFile.h">
@@ -63,6 +69,12 @@
     </ClInclude>
     <ClInclude Include="Util.h">
       <Filter>Headers Files\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="CustomTypes.h">
+      <Filter>Headers Files\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="SymmetricPadding.h">
+      <Filter>Headers Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

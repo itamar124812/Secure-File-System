@@ -12,10 +12,33 @@
 
 using namespace std;
 
-
+char* toHex(int num) {
+	char result[9] = { 0 };
+	sprintf(result, "%x", num);
+	return result;
+}
 void test1();
-int main() {
+char** bufferToHexString(const unsigned char* buffer, int size); 
+void printbufferAsHex(const unsigned char* buffer, int size);
+char** bufferToHexString(const unsigned char* buffer, int size) {
 	
+	char* result =(char*) malloc(size*2+1);
+	for (size_t i = 0; i < size; i++)
+	{
+		sprintf(result + i*2, "%02X", buffer[i]);
+		printf("%02X", buffer[i]);
+	}
+	result[size*2] = 0;
+	return &result;
+}
+void printbufferAsHex(const unsigned char* buffer, int size)
+{
+	char** s=bufferToHexString(buffer, size);
+	printf("%s", *s);
+	free((void*)(*s));
+}
+int main() {
+	printf("%s", toHex(10));
 	test1();
 	system("pause");
 	return EXIT_SUCCESS;
@@ -24,7 +47,15 @@ void test1() {
 	AESResult* result = NULL;
 	const char* path = R"(C:\Users\USER\Source\Repos\Project22\Debug\longText.txt)";
 	encryptFile(path,&result,true,32,32);
+	printf("key: ");
+	printbufferAsHex(result->key, result->keySize);
+	printf("\nIV: ");
+	printbufferAsHex(result->iv, 12);
+	printf("\nTag: ");
+	printbufferAsHex(result->tag, 16);
+	printf("\nAAD: %s\n", result->AAD);
 	printf("%d",decryptFile(path, result));
+
 	free(result->path);
 	free(result->AAD);
 	free(result->iv);

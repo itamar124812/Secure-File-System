@@ -146,15 +146,19 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AES.cpp" />
+    <ClCompile Include="DES.cpp" />
     <ClCompile Include="ErrorsCode.cpp" />
     <ClCompile Include="ReadFile.cpp" />
     <ClCompile Include="Source.cpp" />
+    <ClCompile Include="SymmetricPadding.cpp" />
     <ClCompile Include="Util.cpp" />
     <ClCompile Include="writeFile.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AES.h" />
+    <ClInclude Include="CustomTypes.h" />
     <ClInclude Include="ErrorsCode.h" />
+    <ClInclude Include="SymmetricPadding.h" />
     <ClInclude Include="Util.h" />
     <ClInclude Include="ReadFile.h" />
     <ClInclude Include="RSA.h" />
