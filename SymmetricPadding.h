@@ -2,7 +2,7 @@
 #include "CustomTypes.h"
 typedef enum
 {
-	PKCS7,
+	PKCS7_P,
 	ONEBYZEROS,
 	ANSIX923,
 	ISO10126

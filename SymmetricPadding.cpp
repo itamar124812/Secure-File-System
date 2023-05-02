@@ -14,15 +14,15 @@ byte* padBuffer(byte* buffer, int bufferLen, int blockLen, PaddingMethods paddin
 
 	blocksNum = bufferLen / blockLen + 1;
 	remainder = bufferLen % blockLen;
-	paddingSize = remainder > 0 ? remainder : blockLen;
-	res = (byte*)realloc(buffer, bufferLen + blockLen);
+	paddingSize = remainder > 0 ? blockLen-remainder : blockLen;
+	res = (byte*)realloc(buffer, bufferLen + paddingSize);
 	if (!res) {
 		perror("Unable to properly pad the buffer due to memory issues.");
 		return NULL;
 	}
 	switch (paddingMethod)
 	{
-	case PKCS7:
+	case PKCS7_P:
 		memset(res + bufferLen, paddingSize, paddingSize);
 		break;
 	case ONEBYZEROS:

@@ -8,10 +8,11 @@
 #include <openssl/evp.h>
 #include "ReadFile.h"
 #include "AES.h"
+#include "SymmetricPadding.h"
 
 
 using namespace std;
-
+void testPadding();
 char* toHex(int num) {
 	char result[9] = { 0 };
 	sprintf(result, "%x", num);
@@ -38,6 +39,7 @@ void printbufferAsHex(const unsigned char* buffer, int size)
 	free((void*)(*s));
 }
 int main() {
+	testPadding();
 	printf("%s", toHex(10));
 	test1();
 	system("pause");
@@ -78,4 +80,20 @@ void test() {
 	//free((void*)str);
 	//free((void*)path);
 	free((void*)fileContent);
+}
+void testPadding() {
+	const char* someString = "lets play soccer today";
+	byte paddingResult[] = "lets play soccer today\n\n\n\n\n\n\n\n\n";
+	int length = strlen(someString);
+	byte* buffer = (byte*)malloc(sizeof(byte) * length);
+	memcpy(buffer, someString, length);
+	int res = 0;
+	buffer = padBuffer(buffer, length, 16, PKCS7_P, &res);
+	if (res != 32) {
+		printf("the length should be 32.");
+			goto clear_area;
+	}
+	if(memcmp(paddingResult, buffer, 32)) printf("the padding should be %s",paddingResult);
+	clear_area:
+	free(buffer);
 }

@@ -1,34 +1,37 @@
 #include <stdlib.h>
 #include<string.h>
 #include "CustomTypes.h"
+#include "SymmetricPadding.h"
 
 
-byte* ECB(byte* buffer,int length,int blockLen, byte *(*encryptionFunc)(byte*,int)) {
+byte* ECB(byte* buffer,int length,int blockLen,PaddingMethods paddingMethod, byte *(*encryptionFunc)(byte*,int)) {
+	const char* errorString;
+	int resLength = 0, blocksNum;
+	byte* temp, * result;
 	if (buffer == NULL || length <= 0 || blockLen <= 0 || encryptionFunc == NULL) {
-		perror("INVALID INPUT.");
-		return NULL;
+	errorString ="INVALID INPUT.";
+	goto err;
 	}
-
-
-	int blocksNum, shiftNum;
-	byte* temp, *result;
-
-
-	blocksNum = length / blockLen;
-	shiftNum = length % blockLen;
-	if (shiftNum > 0) {
-		temp = (byte*)realloc(buffer, length + shiftNum);
-		if (!temp) {
-			perror("Unable to properly pad the buffer due to memory issues");
-		}
-		memset(buffer+length, 0, shiftNum);
-		blocksNum++;
+	temp = padBuffer(buffer, length, blockLen, paddingMethod, &resLength);
+	if (!temp) {
+		errorString = "An error has occurred while padding.";
+		goto err;
 	}
-
-	result = (byte*) malloc(blocksNum * blockLen);
+	buffer = temp;
+	result = (byte*) malloc(resLength*sizeof(byte));
+	if (!result) goto err;
+	blocksNum = resLength / blockLen;
 	for (int i = 0; i < blocksNum; i++)
 	{
-		encryptionFunc(buffer+i*blockLen, blockLen);
+		temp=encryptionFunc(buffer+i*(size_t)blockLen, blockLen);
+		if (!temp) {
+			errorString = "An error has occurred while encrypting.";
+			goto err;
+		}
+		memcpy(result + i * (size_t)blockLen, temp, blockLen);
 	}
-
+	return result;
+err:
+	perror(errorString);
+	return NULL;
 }
